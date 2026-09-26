@@ -1,85 +1,57 @@
-export interface Blog {
-  id: string | number;
-  title: string;
-  author: string;
-  url: string;
-  likes: number;
+import { desc, eq, ilike, sql } from "drizzle-orm";
+import { db } from "../../db";
+import { blogs } from "../../db/schema";
+
+export async function getBlogs() {
+  return await db.select().from(blogs);
 }
 
-const initialBlogs: Blog[] = [
-  {
-    id: 1,
-    title: "React Patterns and Best Practices",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-  },
-  {
-    id: 2,
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
-    likes: 5,
-  },
-  {
-    id: 3,
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-  },
-  {
-    id: 4,
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    likes: 10,
-  },
-];
-
-let blogs: Blog[] = [...initialBlogs];
-
-export async function getBlogs(): Promise<Blog[]> {
-  return blogs;
+export async function getBlogsSortedByLikes() {
+  return await db.select().from(blogs).orderBy(desc(blogs.likes));
 }
 
-export async function getBlogsSortedByLikes(): Promise<Blog[]> {
-  return [...blogs].sort((a, b) => b.likes - a.likes);
-}
-
-export async function searchBlogs(titleQuery?: string): Promise<Blog[]> {
-  const sorted = await getBlogsSortedByLikes();
+export async function searchBlogs(titleQuery?: string) {
   if (!titleQuery || !titleQuery.trim()) {
-    return sorted;
+    return await getBlogsSortedByLikes();
   }
-  const term = titleQuery.toLowerCase().trim();
-  return sorted.filter((blog) => blog.title.toLowerCase().includes(term));
+  return await db
+    .select()
+    .from(blogs)
+    .where(ilike(blogs.title, `%${titleQuery.trim()}%`))
+    .orderBy(desc(blogs.likes));
 }
 
+export async function getBlogById(id: string | number) {
+  const numericId = Number(id);
+  if (isNaN(numericId)) return undefined;
 
-
-export async function getBlogById(id: string | number): Promise<Blog | undefined> {
-  return blogs.find((blog) => String(blog.id) === String(id));
+  const result = await db.select().from(blogs).where(eq(blogs.id, numericId)).limit(1);
+  return result[0];
 }
 
-export async function createBlog(data: { title: string; author: string; url: string }): Promise<Blog> {
-  const newBlog: Blog = {
-    id: Date.now().toString(),
-    title: data.title,
-    author: data.author,
-    url: data.url,
-    likes: 0,
-  };
-  blogs.push(newBlog);
-  return newBlog;
+export async function createBlog(data: { title: string; author: string; url: string }) {
+  const result = await db
+    .insert(blogs)
+    .values({
+      title: data.title,
+      author: data.author,
+      url: data.url,
+      likes: 0,
+    })
+    .returning();
+
+  return result[0];
 }
 
-export async function likeBlog(id: string | number): Promise<Blog | undefined> {
-  const blog = blogs.find((b) => String(b.id) === String(id));
-  if (blog) {
-    blog.likes += 1;
-    return blog;
-  }
-  return undefined;
-}
+export async function likeBlog(id: string | number) {
+  const numericId = Number(id);
+  if (isNaN(numericId)) return undefined;
 
+  const result = await db
+    .update(blogs)
+    .set({ likes: sql`${blogs.likes} + 1` })
+    .where(eq(blogs.id, numericId))
+    .returning();
+
+  return result[0];
+}
