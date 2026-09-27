@@ -7,3 +7,9 @@ export const blogs = pgTable("blogs", {
   url: text("url").notNull(),
   likes: integer("likes").default(0).notNull(),
 });
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  name: text("name").notNull(),
+});

@@ -6,8 +6,11 @@ export default function Navbar() {
       <Link href="/" style={{ marginRight: "16px" }}>
         Home
       </Link>
-      <Link href="/blogs">
+      <Link href="/blogs" style={{ marginRight: "16px" }}>
         Blogs
+      </Link>
+      <Link href="/users">
+        Users
       </Link>
     </nav>
   );
