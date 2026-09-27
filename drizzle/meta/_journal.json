@@ -15,6 +15,13 @@
       "when": 1790530554583,
       "tag": "0001_cloudy_dracula",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790531165686,
+      "tag": "0002_silent_rogue",
+      "breakpoints": true
     }
   ]
 }
