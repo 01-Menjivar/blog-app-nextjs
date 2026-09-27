@@ -18,7 +18,7 @@ export default async function UsersPage() {
         <ul>
           {usersList.map((user) => (
             <li key={user.id} style={{ marginBottom: "8px" }}>
-              <Link href={`/users/${user.id}`}>
+              <Link href={`/users/${user.username}`}>
                 {user.name} (@{user.username})
               </Link>
             </li>
