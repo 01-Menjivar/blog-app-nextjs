@@ -21,7 +21,7 @@ export default function NewBlogPage() {
             name="title"
             type="text"
             required
-            style={{ width: "100%", padding: "6px", border: "1px solid #fff" }}
+            style={{ width: "100%", padding: "6px", border: "1px solid #999" }}
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function NewBlogPage() {
             name="author"
             type="text"
             required
-            style={{ width: "100%", padding: "6px", border: "1px solid #fff" }}
+            style={{ width: "100%", padding: "6px", border: "1px solid #999" }}
           />
         </div>
 
@@ -47,7 +47,7 @@ export default function NewBlogPage() {
             name="url"
             type="url"
             required
-            style={{ width: "100%", padding: "6px", border: "1px solid #fff" }}
+            style={{ width: "100%", padding: "6px", border: "1px solid #999" }}
           />
         </div>
 
