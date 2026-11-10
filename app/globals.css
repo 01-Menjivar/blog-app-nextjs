@@ -6,68 +6,66 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
-  max-width: 800px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  color: #0645ad;
+.markdown h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem;
+}
+
+.markdown h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin: 2rem 0 0.75rem;
+}
+
+.markdown h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.markdown p {
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+.markdown a {
+  color: #3b82f6;
   text-decoration: underline;
 }
 
-h1, h2 {
-  margin-bottom: 12px;
+.markdown a:hover {
+  color: #2563eb;
 }
 
-h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
+.markdown ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  line-height: 1.7;
+  list-style-type: disc;
 }
 
-h2 {
-  font-size: 1.25rem;
-  font-weight: bold;
+.markdown ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  line-height: 1.7;
+  list-style-type: decimal;
 }
 
-ul {
-  list-style: disc;
-  padding-left: 24px;
+.markdown li {
+  margin: 0.5rem 0;
 }
 
-input {
-  border: 1px solid #999;
-  padding: 4px 6px;
-  margin: 0 8px 8px 8px;
-}
-
-button {
-  border: 1px solid #999;
-  background: #f3f3f3;
-  padding: 4px 12px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #e5e5e5;
-}
-
-nav {
-  padding: 12px;
-  border-bottom: 1px solid #ccc;
-}
-
-main, body > div {
-  padding: 20px;
+.markdown hr {
+  margin: 2rem 0;
+  opacity: 0.2;
 }

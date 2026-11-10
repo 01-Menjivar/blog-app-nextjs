@@ -14,6 +14,12 @@ export async function getUserById(id: string | number) {
   return result[0];
 }
 
+export async function getUserByUsername(username: string) {
+  return await db.query.users.findFirst({
+    where: eq(users.username, username),
+  });
+}
+
 export async function getUserByUsernameWithBlogs(username: string) {
   return await db.query.users.findFirst({
     where: eq(users.username, username),

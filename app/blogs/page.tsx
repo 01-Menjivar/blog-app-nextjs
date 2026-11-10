@@ -18,48 +18,68 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
   const isFiltering = Boolean(titleQuery.trim());
 
   return (
-    <main style={{ padding: "20px" }}>
-      <h1>Blogs</h1>
-      <div style={{ marginBottom: "16px" }}>
-        <Link href="/blogs/new">+ Create New Blog</Link>
+    <main className="max-w-2xl mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-xl font-bold tracking-tight text-neutral-900">Blogs</h1>
+        <Link
+          href="/blogs/new"
+          className="text-xs bg-neutral-900 text-white rounded px-3 py-1.5 hover:bg-neutral-800 transition-colors"
+        >
+          + Create Blog
+        </Link>
       </div>
 
-      <form action={searchBlogsAction} style={{ marginBottom: "20px", display: "flex", gap: "8px" }}>
+      <form action={searchBlogsAction} className="flex gap-2 mb-6">
         <input
           type="text"
           name="title"
+          data-testid="filter-input"
           defaultValue={titleQuery}
           placeholder="Filter by title..."
-          style={{ padding: "6px", width: "260px" }}
+          className="flex-1 text-sm border border-neutral-300 rounded px-3 py-1.5 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-900"
         />
-        <button type="submit" style={{ padding: "6px 12px", cursor: "pointer" }}>
-          {isFiltering ? "Clear / Update Filter" : "Filter"}
+        <button
+          type="submit"
+          data-testid="search-button"
+          className="text-xs border border-neutral-300 rounded px-3 py-1.5 text-neutral-700 hover:border-neutral-400 hover:text-neutral-900 transition-colors cursor-pointer"
+        >
+          {isFiltering ? "Clear / Update" : "Filter"}
         </button>
       </form>
 
-      {blogs.length === 0 ? (
-        <p>No blogs found.</p>
-      ) : (
-        <ul>
-          {blogs.map((blog) => (
-            <li key={blog.id} style={{ marginBottom: "16px" }}>
-              <div>
-                <Link href={`/blogs/${blog.id}`}>
-                  <strong>{blog.title}</strong>
+      <div data-testid="blogs-list">
+        {blogs.length === 0 ? (
+          <div className="py-12 text-center text-sm text-neutral-400 border border-dashed border-neutral-200 rounded">
+            No blogs found.
+          </div>
+        ) : (
+          <div className="divide-y divide-neutral-200 border-t border-b border-neutral-200">
+            {blogs.map((blog) => (
+              <article key={blog.id} className="py-4">
+                <Link
+                  href={`/blogs/${blog.id}`}
+                  className="text-sm font-semibold text-neutral-900 hover:text-neutral-600 transition-colors block mb-1"
+                >
+                  {blog.title}
                 </Link>
-              </div>
-              <div>Author: {blog.author}</div>
-              <div>
-                URL:{" "}
-                <a href={blog.url} target="_blank" rel="noopener noreferrer">
+                <div className="flex items-center gap-2 text-xs text-neutral-500 mb-1">
+                  <span>By {blog.author}</span>
+                  <span>•</span>
+                  <span>{blog.likes} {blog.likes === 1 ? "like" : "likes"}</span>
+                </div>
+                <a
+                  href={blog.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-neutral-400 hover:text-neutral-600 truncate block max-w-md transition-colors"
+                >
                   {blog.url}
                 </a>
-              </div>
-              <div>Likes: {blog.likes}</div>
-            </li>
-          ))}
-        </ul>
-      )}
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }

@@ -1,13 +1,13 @@
-import Link from "next/link";
+import Homepage from "./homepage.mdx";
 
-export default function Home() {
+const Home = () => {
   return (
-    <main style={{ padding: "20px" }}>
-      <h1>Home Page</h1>
-      <p>Bienvenido a la página principal.</p>
-      <p>
-        Ir a la lista de <Link href="/blogs">blogs</Link>.
-      </p>
+    <main className="max-w-2xl mx-auto px-4 py-8">
+      <div className="markdown">
+        <Homepage />
+      </div>
     </main>
   );
-}
+};
+
+export default Home;

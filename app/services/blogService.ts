@@ -29,7 +29,7 @@ export async function getBlogById(id: string | number) {
   return result[0];
 }
 
-export async function createBlog(data: { title: string; author: string; url: string }) {
+export async function createBlog(data: { title: string; author: string; url: string; userId?: number }) {
   const result = await db
     .insert(blogs)
     .values({
@@ -37,6 +37,7 @@ export async function createBlog(data: { title: string; author: string; url: str
       author: data.author,
       url: data.url,
       likes: 0,
+      userId: data.userId,
     })
     .returning();
 
