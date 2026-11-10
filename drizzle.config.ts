@@ -1,9 +1,15 @@
-import { defineConfig } from "drizzle-kit"
-import * as dotenv from "dotenv"
+import { defineConfig } from "drizzle-kit";
+import * as dotenv from "dotenv";
+import * as fs from "fs";
 
-// Load .env.test in test environment, otherwise .env.local
-const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env.local"
-dotenv.config({ path: envFile })
+// Load .env.test if present (CI/test), otherwise .env.local
+if (fs.existsSync(".env.test")) {
+  dotenv.config({ path: ".env.test" });
+} else if (fs.existsSync(".env.local")) {
+  dotenv.config({ path: ".env.local" });
+} else {
+  dotenv.config();
+}
 
 export default defineConfig({
   schema: "./db/schema.ts",
@@ -12,4 +18,4 @@ export default defineConfig({
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
-})
+});
